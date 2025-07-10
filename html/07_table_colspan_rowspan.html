@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML Table Cell Apsorption</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #4e7fdf;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>HTML Table Cell Apsorption</h1>
+    <p>This is a simple example of an HTML table with colspan and rowspan attributes.</p>
+
+    <h2>colspan 속성 (열 병합)</h2>
+    <table>
+        <caption>2025년 상반기 판매 요약</caption>
+        <thead>
+            <tr>
+                <th>월</th>
+                <th colspan="3">판매량</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>제품 A</th>
+                <th>제품 B</th>
+                <th>제품 C</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1월</td>
+                <td>150</td>
+                <td>200</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>2월</td>
+                <td>180</td>
+                <td>220</td>
+                <td>130</td>
+            </tr>
+            <tr>
+                <td>3월</td>
+                <td>200</td>
+                <td>250</td>
+                <td>150</td>
+            </tr>
+        <tbody>
+        <tfoot>
+            <tr>
+                <td>총합</td>
+                <td colspan="3">???</td>
+            </tr>
+        </tfoot>
+    </table>
+    <br />
+    <hr />
+    <br>
+    
+    <table>
+        <caption>학생별 과목 점수</caption>
+        <thead>
+            <tr>
+                <th rowspan="2">학생</th>
+                <th colspan="3">과목</th>
+            </tr>
+            <tr>
+                <th>수학</th>
+                <th>과학</th>
+                <th>영어</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>홍길동</td>
+                <td>85</td>
+                <td>90</td>
+                <td>88</td>
+            </tr>
+            <tr>
+                <td>김철수</td>
+                <td>78</td>
+                <td>82</td>
+                <td>80</td>
+            </tr>
+    </table>
+
+    <br>
+    <hr>
+    <br>
+    <table>
+        <caption>성적표</caption>
+        <thead>
+            <tr>
+                <th rowspan="2">구분</th>
+                <th colspan="2">성적</th>
+            </tr>
+            <tr>
+                <th>중간고사</th>
+                <th>기말고사</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Hunter</td>
+                <td>A+</td>
+                <td>A</td>  
+            </tr>
+        </tbody>
+  </body>
+</html>
