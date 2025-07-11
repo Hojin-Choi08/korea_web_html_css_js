@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 선택자 배우기</title>
+    <style>
+      * {
+        margin: 0;
+      }
+      #main-title {
+        font-size: 100px;
+        color: blue;
+      }
+      p {
+        font-size: 20px;
+        color: green;
+      }
+      .p-class {
+        color:indigo
+      }
+      header > p {
+        color: rgb(192, 22, 36)
+      }
+      div > div > h1 {
+        color: red;
+      }
+      .btn:hover {
+        color: white;
+        background-color: black;
+        border-radius: 10px;
+      }
+      input:focus {
+        border: 3px solid blue;
+      }
+      input {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="main-title">CSS 선택자 배우기</h1>
+    <header>
+      <p>이 페이지는 다양한 CSS 선택자를 배웁니다.</p>
+    </header>
+    <h2>1. 기본 선택자</h2>
+    <p class="p-class">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem nihil
+      velit eveniet numquam accusamus sint eligendi maxime. Laudantium
+      voluptatibus, ex enim, quis, maiores exercitationem quas repellendus ipsam
+      recusandae corporis asperiores.
+    </p>
+    <p class="p-class">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam
+      deleniti nulla, delectus eos exercitationem atque aperiam molestiae magni
+      dicta sequi, impedit omnis. Consequuntur totam dolorem earum pariatur
+      dignissimos nobis quae?
+    </p>
+    <p class="p-class">
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque rem nam
+      ipsum voluptatum unde ducimus autem doloribus, molestias inventore
+      provident nulla possimus laborum vero accusamus necessitatibus nostrum ab
+      aspernatur sapiente!
+    </p>
+    <div>
+        <div><h1>Out of my mind</h1></div>
+    </div>
+    <button class="btn">Hover me!</button>
+    <input type="text" />
+  </body>
+</html>
