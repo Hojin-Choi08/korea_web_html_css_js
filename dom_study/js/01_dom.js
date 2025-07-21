@@ -36,3 +36,30 @@ d222.innerHTML = "EW";
 
 d222.innerHTML = "<p>innerHTML</p>";
 d222.innerText = "<p>innerText</p>";
+
+const students = [
+  { name: "HJ", age: 17, address: "Kirkland WA" },
+  { name: "EW", age: 17, address: "Busan Haeundae" },
+  { name: "JW", age: 19, address: "Changwon Jinhae" },
+];
+
+const studentTableTbody = document.querySelector(".student-table > tbody");
+
+const studentTrs = students.map((s, index) => {
+  return `<tr>
+    <td>${index + 1}</td>
+    <td>${s.name}</td>
+    <td>${s.age}</td>
+    <td>${s.address}</td>
+    </tr>`;
+});
+
+studentTableTbody.innerHTML = studentTrs.join("");
+
+const tdList = document.querySelectorAll("td");
+tdList.forEach((td) => (td.style = "border: 1px solid black"));
+
+const studentTable = document.querySelector(".student-table");
+studentTable.id = "table-student";
+studentTable.classList.add("student");
+studentTable.classList.remove("student-table");
