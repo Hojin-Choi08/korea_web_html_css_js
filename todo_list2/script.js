@@ -5,6 +5,36 @@ const todoList = document.querySelector("#todoList");
 let todos = [];
 let nextTodoId = 1;
 
+//localstorage
+//웹 브라우저가 제공하는 작은 데이터 저장 공간
+//로컬스토리지는 항상 문자열 형태로 저장
+//이름(키)과 내용(값)을 한 쌍 => JSON 문자열 형태
+
+//현재 투두 데이터를 로컬스토리지에 저장하는 함수
+function saveTodoLocalStorage() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+  //JSON.stringify => 자바스크립트의 객체나 배열을 JSON 문자열 형태로 변환
+}
+
+//로컬스토리지에서 투두 데이터를 불러오는 함수
+function loadTodoLocalStorage() {
+  const localStorageTodo = localStorage.getItem("todos");
+  if (localStorageTodo) {
+    todos = JSON.parse(localStorageTodo);
+    console.log(todos);
+    if (todos.length > 0) {
+      nextTodoId = Math.max(...todos.map((todo) => todo.id)) + 1;
+      //저장되어 있는 투두를 불러와 다음 할 일을 추가할 때 사용할 Id를 설정
+      //투두들 중 가장 큰 Id를 가져와서 +1을 해줌
+    } else {
+      nextTodoId = 1;
+    }
+  } else {
+    todos = [];
+    nextTodoId = 1;
+  }
+}
+
 function renderTodo() {
   todoList.innerHTML = "";
 
@@ -54,7 +84,7 @@ function addTodo() {
   };
 
   todos.push(newTodo);
-  console.log(todos);
+  saveTodoLocalStorage();
   todoInput.value = "";
   todoInput.focus();
 
@@ -76,6 +106,7 @@ function editTodo(id) {
       ? { ...todo, isEditing: true }
       : { ...todo, isEditing: false }
   );
+  saveTodoLocalStorage();
   renderTodo();
 
   const editInput = todoList.querySelector(`li[data-id="${id}"] .edit-input`);
@@ -94,6 +125,7 @@ function saveTodo(id, newText) {
   todos = todos.map((todo) =>
     todo.id === id ? { ...todo, text: newText.trim(), isEditing: false } : todo
   );
+  saveTodoLocalStorage();
   renderTodo();
 }
 
@@ -130,3 +162,6 @@ todoList.addEventListener("click", (event) => {
     cancelTodo(todoId);
   }
 });
+
+loadTodoLocalStorage();
+renderTodo();
