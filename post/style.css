@@ -93,15 +93,29 @@ h2 {
 }
 
 .detail-btn {
-    background-color: #17a2b8;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.9em;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  background-color: #17a2b8;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 .detail-btn:hover {
-    background-color: #138496;
+  background-color: #138496;
+}
+
+#backBtn {
+  padding: 3px 4px;
+  background-color: yellow;
+  color: black;
+  border: 1px solid yellow;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+
+#backBtn:hover {
+  background-color: yellowgreen;
+  transition: all 0.2s ease;
 }
