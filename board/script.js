@@ -16,6 +16,7 @@ const pagePassword = document.querySelector("#page-password");
 const pageBoard = document.querySelector("#page-board");
 const pageWrite = document.querySelector("#page-write");
 const pageDetail = document.querySelector("#page-detail");
+// const pageEdit = document.querySelector("#page-edit");
 
 //로그인 및 회원가입 폼
 const signupForm = document.querySelector("#signup-form");
@@ -28,11 +29,20 @@ const boardList = document.querySelector("#board-list");
 //게시물 추가
 const writeForm = document.querySelector("#write-form");
 
+//게시물 수정
+// const editForm = document.querySelector("#edit-form");
+
 //게시물 상세
 const detailTitle = document.querySelector("#detail-title");
 const detailUserId = document.querySelector("#detail-userid");
 const detailContent = document.querySelector("#detail-content");
 const backBtn = document.querySelector("#back-btn");
+const deleteBtn = document.querySelector("#delete-btn");
+// const editBtn = document.querySelector("#edit-btn");
+const btnBox = document.querySelector("#btn-box");
+
+const editTitle = document.querySelector("#edit-title");
+const editContent = document.querySelector("#edit-content");
 
 let boards = [];
 
@@ -123,6 +133,9 @@ async function renderBoard() {
 async function getBoard(boardId) {
   const accessToken = localStorage.getItem("AccessToken");
 
+  const userInfo = getPayload(accessToken);
+  const userId = parseInt(userInfo.jti);
+
   if (!accessToken) {
     alert("게시물을 조회하려면 로그인이 필요합니다.");
     changePages(pageSignin);
@@ -143,10 +156,111 @@ async function getBoard(boardId) {
       detailTitle.innerText = responseData.data.title;
       detailUserId.innerText = `유저 ID : ${responseData.data.userId}`;
       detailContent.innerText = responseData.data.content;
+      deleteBtn.setAttribute("data-board-id", responseData.data.boardId);
+
+      btnBox.classList.remove("active");
+
+      if (responseData.data.userId === userId) {
+        btnBox.classList.add("active");
+      }
       changePages(pageDetail);
     }
   } catch (error) {}
 }
+
+async function removeBoard() {
+  const boardId = deleteBtn.dataset.boardId;
+
+  const accessToken = localStorage.getItem("AccessToken");
+
+  if (!accessToken) {
+    alert("로그인이 필요합니다.");
+    changePages(pageSignin);
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/board/remove/${boardId}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.status !== "success") {
+      alert(responseData.message);
+    } else {
+      alert(responseData.message);
+    }
+
+    await renderBoard();
+    changePages(pageBoard);
+  } catch (error) {
+    console.log(error);
+    alert("삭제 요청을 보내는 중에 문제가 발생했습니다.");
+  }
+}
+
+
+// async function editBoard() {
+//   event.preventDefault();
+//   const userInfo = await getPayload();
+
+//   const titleInput = document.querySelector("#edit-title");
+//   const contentInput = document.querySelector("#edit-content");
+
+//   const accessToken = localStorage.getItem("AccessToken");
+
+//   if (!accessToken) {
+//     alert("글을 수정하려면 로그인이 필요합니다.");
+//     changePages(pageSignin);
+//     return;
+//   }
+
+//   if (!titleInput.value.trim() || !contentInput.value.trim()) {
+//     alert("모든 항목을 입력해주세요");
+//     return;
+//   }
+
+//   const boardData = {
+//     boardId: editBtn.dataset.boardId,
+//     title: titleInput.value,
+//     content: contentInput.value,
+//     userId: userInfo.jti,
+//   };
+
+//   try {
+//     const response = await fetch(`${API_BASE_URL}/board/update`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//       body: JSON.stringify(boardData),
+//     });
+
+//     const responseData = await response.json();
+
+//     editTitle.innerText = boardData.title;
+//     editContent.innerText = boardData.content;
+//     editBtn.setAttribute("data-board-id", boardData.boardId);
+
+//     if (responseData.status !== "success") {
+//       alert(responseData.message);
+//     } else {
+//       alert(responseData.message);
+//       editForm.reset();
+//       await renderBoard();
+//       changePages(pageBoard);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     alert("게시물 수정 중 오류가 발생했습니다.");
+//   }
+// }
+
 //게시물 추가 요청 함수
 async function addBoard(event) {
   event.preventDefault();
@@ -316,8 +430,8 @@ async function changePassword(event) {
     return;
   }
 
-  if (newPasswordInput.value || newPasswordInput.value) {
-    alert("변경 될 비밀번호가 일치하지 않습니다");
+  if (newPasswordInput.value !== newConfirmPasswordInput.value) {
+    alert("비밀번호가 일치하지 않습니다.");
     return;
   }
 
@@ -365,7 +479,7 @@ navSignup.addEventListener("click", () => {
 });
 
 navLogout.addEventListener("click", () => {
-  if (confirm("로그아웃 하시겠습니까?")) {
+  if (confirm("정말 로그아웃 하시겠습니까?")) {
     localStorage.removeItem("AccessToken");
     location.reload(true);
   } else {
@@ -383,11 +497,23 @@ navWrite.addEventListener("click", () => {
 });
 
 backBtn.addEventListener("click", renderBoard);
+deleteBtn.addEventListener("click", () => {
+  if (confirm("정말 게시물을 삭제 하시겠습니까?")) {
+    removeBoard();
+  } else {
+    return;
+  }
+});
+
+// editBtn.addEventListener("click", () => {
+//   changePages(pageEdit);
+// });
 
 signupForm.addEventListener("submit", signupHandler);
 signinForm.addEventListener("submit", signinHandler);
 writeForm.addEventListener("submit", addBoard);
 passwordForm.addEventListener("submit", changePassword);
+// editForm.addEventListener("submit", editBoard);
 
 //HTML 문서가 완전히 로드되고 파싱되었을 때
 document.addEventListener("DOMContentLoaded", async () => {
@@ -396,6 +522,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (accessToken) {
     navSignin.style.display = "none";
     navSignup.style.display = "none";
+
     await renderBoard();
   } else {
     navLogout.style.display = "none";
